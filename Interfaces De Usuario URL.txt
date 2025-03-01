@@ -1,0 +1,56 @@
+Este código @startmindmap
+
+* TicketExpress
+left side
+**:==Público Objetivo
+  *** Clientes
+  *** Empresas Organizadoras
+  *** Agencias de Venta
+;
+**:==Alianzas Clave
+  *** Empresas de Ticketing
+  *** Bancos y Pasarelas de Pago
+  *** Promotores de Eventos
+;
+**:==Canales de Atención
+  *** Plataforma Web
+  *** Aplicación Móvil
+  *** Centros de Venta Físicos
+;
+right side
+**:==Estructura de Costes
+  *** Desarrollo y Mantenimiento
+  *** Infraestructura Tecnológica
+  *** Comisiones de Pago
+;
+**:==Procesos
+  *** Selección de conciertos y boletos
+  *** Pago seguro
+  *** Confirmación de compra
+  *** Gestión de inventario de boletos
+  *** Generación de reportes de ventas
+  *** Provisión de estadísticas
+;
+@endmindmap
+
+modificalo a este formato
+@startmindmap
+<style>
+mindmapDiagram {
+  .green {
+    BackgroundColor lightgreen
+  }
+  .rose {
+    BackgroundColor #FFBBCC
+  }
+  .your_style_name {
+    BackgroundColor lightblue
+  }
+}
+</style>
+* root node
+ * some first level node <<green>>
+  * second level node <<rose>>
+  * another second level node <<your_style_name>>
+ * another first level node <<green>>
+@endmindmap

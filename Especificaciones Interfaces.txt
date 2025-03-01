@@ -1,0 +1,116 @@
+1. Página principal
+Estas páginas son accesibles para todos los visitantes, incluso antes de que inicien sesión o se registren:
+
+Explicación de los reportes ciudadanos: esta sección describe los tipos de problemas que los usuarios pueden reportar a través de la plataforma. Por ejemplo, podría detallar categorías como problemas de seguridad (robos), emergencias médicas (accidentes), problemas de infraestructura (farolas rotas), mascotas perdidas y problemas comunitarios (contaminación). El objetivo es informar a los usuarios sobre el alcance de la plataforma. agrega las respectivas imágenes de los tipos de problemas.
+
+Sección Reportes:
+
+En esta sección se incluye una Lista de reporte: muestra una lista de los reportes creados.
+
+Búsqueda basada en categorías: implementa un mecanismo de búsqueda/filtro que permite a los usuarios filtrar informes por categoría (por ejemplo, seguridad, emergencias, infraestructura). Esto ayuda a los usuarios a encontrar rápidamente informes relevantes a sus intereses. agrega las respectivas imágenes de los tipos de problemas. Crear en cada reporte el botón "Es importante"
+
+En esta sección se incluye Botón "Es importante":
+
+Permite a los usuarios votar sobre la importancia o gravedad de un informe. Este sistema de votación ayuda a priorizar los informes.
+
+En esta sección se incluye sección Comentarios:
+
+Los usuarios pueden agregar comentarios a los informes para brindar información adicional o actualizaciones sobre los reportes.
+
+Sección Destacados:
+
+En esta sección se incluye Muestra los reportes relevantes: muestra los informes que se consideran importantes o urgentes según los votos de los usuarios (botón "Es importante") o las decisiones del moderador. Esta sección ayuda a llamar la atención sobre problemas críticos en la comunidad.
+
+En esta sección se incluye Muestra los informes generados por el moderado.
+
+Sección Contacto:
+
+Comunicación con el administrador: esta página ofrece una forma para que los usuarios se comuniquen con los administradores de la plataforma. Puede incluir un formulario de contacto o mostrar información de contacto (dirección de correo electrónico).
+
+Sección Iniciar sesión:
+
+Autenticación: enlace a la página de inicio de sesión para usuarios registrados.
+
+Sección Registrarse:
+
+Creación de cuenta: enlace a la página de registro para que los nuevos usuarios creen una cuenta. El proceso de registro incluye la recopilación de información básica del usuario (nombre, ciudad, teléfono, dirección, correo electrónico, contraseña).
+
+2. Páginas de usuario (ciudadano)
+Estas páginas son accesibles para los usuarios registrados (ciudadanos):
+
+Página de inicio del usuario:
+
+Funciona como un panel de control después de iniciar sesión. Puede mostrar:
+
+Un resumen de la actividad reciente en su área.
+
+Acceso rápido a la creación de informes.
+
+Notificaciones personalizadas.
+
+Sección Creación, edición y eliminación de reportes:
+
+En esta sección se permite a los usuarios crear nuevos reportes mediante un formulario que incluye título, categoría, descripción, ubicación (latitud y longitud) y una imagen, además de permitir Creación, edición.
+
+En esta sección se permite eliminar un reporte se busca el reporte por nombre o identificador
+
+Sección administración de los reportes se manejan por estado Verificando, Rechazando, Eliminando, Resuelto crear secciones donde se vea el progreso del reporte
+
+Los reportes se crean inicialmente como no verificado.
+
+En esta sección se incluye Actualización del estado del reporte:
+
+Los usuarios pueden marcar sus propios reporte como "Resueltos" si creen que el problema se ha abordado.
+
+Sección Notificaciones:
+
+Se muestran las alertar de los reportes creados a los usuarios sobre nuevos reportes en su área o dirección residencial o comentarios realizados sobre sus reportes.
+
+Sección Lista de notificaciones: una sección dedicada para ver una lista de todas las notificaciones.
+
+Se muestran los nuevos reportes en el área del usuario o comentarios sobre sus reportes.
+
+En esta sección se permite el Detalles del reporte:
+
+En esta sección se muestra la información completa sobre un reporte, incluidos los comentarios y todos los detalles relevantes.
+
+Sección Administración de cuenta:
+
+Permite a los usuarios editar su información personal o eliminar su cuenta.
+
+3. Páginas del moderador
+Estas páginas son accesibles para los moderadores que hayan iniciado sesión:
+
+Página de inicio del moderador:
+
+Funciona como un panel de control después del inicio de sesión. Puede mostrar:
+
+Un resumen de los reportes que esperan revisión.
+
+Métricas clave.
+
+Herramientas administrativas.
+
+Sección Gestión de categorías:
+
+Permite a los moderadores agregar, editar o eliminar categorías de reporte (por ejemplo, mascotas, delitos).
+
+Sección Gestión de reportes:
+
+Los moderadores pueden verificar, rechazar o eliminar reportes enviados por los usuarios.
+
+Si se rechaza un reporte, el moderador debe proporcionar un motivo para el rechazo. 
+
+en este apartado se permite Marcar reportes como resueltos:
+
+En esta sección los moderadores pueden marcar cualquier reporte como resuelto.
+
+Sección Gestión de cuentas:
+
+Permite a los moderadores editar su propia información de cuenta o eliminar su cuenta.
+
+Sub sección Generación de informes:
+
+Genera informes basados ​​en los reportes de incidentes, filtrados por sector, categoría y período de tiempo.
+
+Los informes se muestran en la web y se pueden exportar como archivos PDF, también se pueden publicar en la pagina de inicio.

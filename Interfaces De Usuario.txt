@@ -1,0 +1,243 @@
+**Diseño de Interfaces de Usuario**
+
+---
+
+### **1. Registro de Usuario (Cliente)**
+
+**Actor:** Usuario
+
+**Pantalla: Formulario de Registro**
+
+- **Campos:** Nombre completo, Ciudad, Teléfono, Dirección, Correo electrónico, Contraseña.
+- **Botón:** "Registrar"
+- **Validaciones:**
+  - Todos los campos son obligatorios.
+  - El correo electrónico debe ser único.
+  - La contraseña debe tener al menos 8 caracteres.
+- **Mensaje de confirmación:** "Registro exitoso. Se ha enviado un código de activación a su correo."
+
+**Pantalla: Activación de Cuenta**
+
+- **Campos:** Código de activación.
+- **Botón:** "Activar Cuenta"
+- **Validaciones:**
+  - Código debe ser válido y no estar expirado (15 minutos).
+  - Si expira, permitir solicitar nuevo código.
+
+---
+
+### **2. Inicio de Sesión**
+
+**Actor:** Usuario
+
+**Pantalla: Login**
+
+- **Campos:** Correo electrónico, Contraseña.
+- **Botón:** "Iniciar sesión"
+- **Validaciones:**
+  - La cuenta debe estar activada.
+  - Mostrar mensaje de error si las credenciales son incorrectas.
+  - Opción "Olvidé mi contraseña".
+
+---
+
+### **3. Recuperación de Contraseña**
+
+**Actor:** Usuario
+
+**Pantalla: Solicitud de Recuperación**
+
+- **Campos:** Correo electrónico.
+- **Botón:** "Enviar código de recuperación"
+
+**Pantalla: Restablecer Contraseña**
+
+- **Campos:** Código de recuperación, Nueva contraseña.
+- **Botón:** "Actualizar Contraseña"
+- **Validaciones:**
+  - El código debe ser válido y no estar expirado (15 minutos).
+  - La nueva contraseña debe cumplir requisitos de seguridad.
+
+---
+
+### **4. Creación, Edición y Eliminación de Reportes**
+
+**Actor:** Usuario
+
+**Pantalla: Crear Reporte**
+
+- **Campos:** Título, Categoría (desplegable), Descripción, Ubicación (mapa interactivo), Imagen.
+- **Botón:** "Publicar Reporte"
+- **Validaciones:**
+  - Todos los campos son obligatorios.
+  - Imagen debe tener formato y tamaño permitido.
+
+**Pantalla: Editar Reporte**
+
+- **Lista de reportes del usuario con opción de edición.**
+- **Campos editables:** Título, Categoría, Descripción, Ubicación, Imagen.
+- **Botón:** "Guardar Cambios"
+- **Validaciones:**
+  - Los cambios deben cumplir con las mismas reglas de validación que la creación.
+
+**Pantalla: Confirmación de Eliminación**
+
+- **Mensaje:** "¿Está seguro de eliminar este reporte? Esta acción no se puede deshacer."
+- **Botones:** "Cancelar", "Eliminar"
+
+---
+
+### **5. Ver y Comentar Reportes**
+
+**Actor:** Usuario
+
+**Pantalla: Lista de Reportes**
+
+- **Filtros:** Estado (pendiente, verificado, rechazado), Categoría.
+- **Lista de reportes con vista rápida.**
+- **Acciones:** Ver detalles, Comentar, Marcar como Importante.
+
+**Pantalla: Detalle de Reporte**
+
+- **Información completa del reporte.**
+- **Campo de comentario.**
+- **Botón:** "Agregar Comentario"
+
+---
+
+### **6. Notificaciones en Tiempo Real**
+
+**Actor:** Usuario
+
+**Pantalla: Notificaciones**
+
+- **Lista de notificaciones con enlace a reportes relevantes.**
+- **Si el usuario no está en línea, envío de correo.**
+
+---
+
+### **7. Gestión de Reportes por Moderadores**
+
+**Actor:** Moderador
+
+**Pantalla: Lista de Reportes Pendientes**
+
+- **Filtros:** Categoría, Estado, Fecha.
+- **Acciones:** Ver detalles, Aprobar, Rechazar (con motivo).
+
+**Pantalla: Detalle de Reporte para Moderación**
+
+- **Toda la información del reporte.**
+- **Opciones:** "Aprobar", "Rechazar con motivo".
+
+---
+
+### **8. Gestión de Cuentas Inactivas**
+
+**Actor:** Moderador
+
+**Pantalla: Lista de Cuentas Inactivas**
+
+- **Acciones:** Reactivar, Eliminar Permanentemente.
+
+---
+
+### **9. Gestión de Reportes por Categoría y Estado**
+
+**A**ctor: Moderador
+
+**Pantalla: Filtrar Reportes**
+
+- **Filtros:** Categoría, Estado (importante, relevante, por aprobar).
+- **Botón:** "Aplicar Filtros"
+- **Resultados:** Lista de reportes filtrados.
+
+---
+
+### **10. Cambio de Estado de Reporte**
+
+**Actor:** Cliente/Moderador
+
+**Pantalla: Modificación de Estado de Reporte**
+
+- **Opciones para Cliente:** Marcar reporte como "Resuelto".
+- **Opciones para Moderador:** Verificar, Rechazar (con motivo), Eliminar.
+- **Historial de Estados:** Mostrar cambios de estado con fecha y hora.
+
+---
+
+### **11. Generar Informes**
+
+**Actor:** Moderador
+
+**Pantalla: Generar Informe de Reportes**
+
+- **Filtros:** Sector, Categoría, Rango de tiempo.
+- **Botón:** "Generar Informe"
+- **Opciones de Salida:** Visualización en web, Descarga en PDF.
+
+---
+
+### **12. Seguimiento de Reportes por Usuarios**
+
+**Actor:** Usuario
+
+**Pantalla: Mis Reportes**
+
+- **Lista de reportes creados por el usuario.**
+- **Acciones:** Ver detalles, Editar, Eliminar, Ver historial de cambios.
+- **Botón:** "Filtrar por Estado" (Pendiente, Verificado, Rechazado, Resuelto).
+
+---
+
+### **13. Exportación de Reportes**
+
+**Actor:** Moderador
+
+**Pantalla: Exportar Reportes**
+
+- **Filtros:** Categoría, Estado, Fecha de creación.
+- **Botón:** "Generar Exportación"
+- **Opciones de salida:** PDF, CSV.
+- **Validaciones:**
+  - Si no hay reportes en el rango seleccionado, mostrar mensaje de advertencia.
+
+---
+
+### **14. Detalle de Alerta de Reporte y Estado**
+
+**Actor:** Usuario
+
+**Pantalla: Detalle de Alerta**
+
+- **Información:** Título, categoría, ubicación, estado actual.
+- **Historial de cambios de estado.**
+- **Comentarios de usuarios.**
+- **Botón:** "Confirmar Resolución" (si aplica).
+
+---
+
+### **15. Editar y Eliminar Cuenta del Usuario**
+
+**Actor:** Usuario
+
+**Pantalla: Configuración de Cuenta**
+
+- **Campos editables:** Nombre, Teléfono, Dirección.
+- **Botón:** "Guardar Cambios"
+- **Botón:** "Eliminar Cuenta"
+- **Confirmación de Eliminación:** "¿Está seguro de eliminar su cuenta? Esta acción es irreversible."
+
+---
+
+### **16. Gestión de Cuentas Eliminadas**
+
+**Actor:** Moderador
+
+**Pantalla: Lista de Cuentas Eliminadas**
+
+- **Acciones:** Restaurar Cuenta.
+- **Historial de eliminación de cuentas.**
+
+
+

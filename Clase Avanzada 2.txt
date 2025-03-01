@@ -1,0 +1,7 @@
+La interfaz es una clase abstracta
+
+Se implementa en una clase
+
+Insertar o eliminar requieren throws Exception para capturar el error
+
+Json Web Tocken String con varios Caracteres

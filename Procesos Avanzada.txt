@@ -1,0 +1,492 @@
+### **3. Reglas de Negocio**
+1. **Validación de Datos**: Todos los datos ingresados deben ser únicos y válidos.
+2. **Activación de Cuenta**: La cuenta solo se activa tras ingresar un código válido dentro de los 15 minutos.
+3. **Trazabilidad de Estados**: Cada cambio de estado en un reporte debe registrarse con fecha y hora.
+4. **Notificaciones Relevantes**: Las notificaciones deben estar relacionadas con la ubicación del usuario (rango definido en kilómetros).
+5. **Eliminación Lógica**: Los registros no se eliminan físicamente, sino que se marcan como inactivos.
+
+---
+
+#### **Proceso: Registro de Usuario (Cliente)**
+
+Descripción 
+   - El usuario debe proporcionar información básica: nombre completo, ciudad de residencia, teléfono, dirección, correo electrónico y contraseña.
+   - Se envía un correo con un código de activación (válido por 15 minutos).
+   - El usuario debe ingresar el código para activar su cuenta.
+- **Flujo Principal**:
+  1. El usuario ingresa sus datos básicos.
+  2. El sistema valida que no haya registros duplicados.
+  3. El sistema envía un correo con un código de activación.
+  4. El usuario ingresa el código para activar su cuenta.
+  5. El sistema activa la cuenta y permite el inicio de sesión.
+
+- **Flujo Alterno**:
+  - Si el código expira (15 minutos), el sistema solicita un nuevo código.
+  - Si los datos son inválidos, el sistema muestra un mensaje de error.
+
+- **Precondición**: El usuario no está registrado en el sistema.
+- **Postcondición**: El usuario tiene una cuenta activada y puede iniciar sesión.
+- **Respuesta del Sistema**: Envío de correo con código, validación de datos, activación de cuenta.
+- **Responsabilidades**:
+  - **Actor**: Proporcionar datos válidos, ingresar el código de activación.
+  - **Sistema**: Validar datos, enviar correo, activar cuenta.
+
+---
+
+#### **Proceso: Creación, edición y eliminación de reportes (Cliente)**
+Descripción
+- Un cliente puede crear reportes con título, categoría, descripción, ubicación (latitud/longitud), e imagen.
+- Los reportes se publican sin estar verificados inicialmente.
+
+- **Flujo Principal**:
+  1. El usuario inicia sesión.
+  2. El usuario selecciona "Crear Reporte".
+  3. El usuario ingresa título, categoría, descripción, ubicación e imagen.
+  4. El sistema valida los datos y publica el reporte sin verificarlo.
+El reporte queda registrado en el sistema con un estado inicial de "Pendiente de Validación" 
+El reporte incluye el ID del usuario que lo creó
+
+- **Flujo Alterno**:
+  - Si los datos son inválidos, el sistema muestra un mensaje de error.
+  - Si la imagen no se carga correctamente, el sistema solicita reintentar.
+
+- **Precondición**: El usuario tiene una cuenta activada y ha iniciado sesión.
+- **Postcondición**: El reporte se publica y queda pendiente de verificación.
+- **Respuesta del Sistema**: Validación de datos, publicación del reporte.
+- **Responsabilidades**:
+  - **Actor**: Ingresar datos del reporte.
+  - **Sistema**: Validar datos, almacenar reporte.
+
+Validación por Moderador :
+El reporte debe ser validado por un moderador. Durante este proceso, el moderador puede:
+Aceptar el reporte : Cambia su estado a "Verificado".
+Rechazar el reporte : El moderador debe proporcionar un motivo detallado para el rechazo.
+Acción en Caso de Rechazo :
+Si el reporte es rechazado, el creador (usuario) tiene 5 días hábiles para realizar las modificaciones necesarias y volver a enviarlo para su revisión.
+Si el creador no realiza las modificaciones dentro de este plazo, el reporte se marca como "No Procesado" y queda inactivo en el sistema.
+Comentarios en el Reporte :
+Los usuarios pueden agregar comentarios al reporte para proporcionar información adicional o confirmar si el problema fue resuelto.
+Si un usuario comenta que el reporte fue resuelto, el creador del reporte recibe una notificación por correo electrónico con el contenido del comentario.
+Historial de Estados :
+Cada cambio de estado del reporte (por ejemplo, "Pendiente de Validación" → "Verificado" → "Resuelto") se registra en un historial con la fecha y hora correspondiente, garantizando la trazabilidad completa del reporte.
+
+---
+
+#### **Proceso: Notificaciones en Tiempo Real (Cliente)**
+Descripción
+   - Los usuarios reciben notificaciones sobre incidentes cercanos (basadas en su ubicación).
+
+- **Flujo Principal**:
+  1. El sistema detecta un nuevo reporte cercano al usuario.
+  2. El sistema envía una notificación en tiempo real.
+  3. El usuario visualiza la notificación en la aplicación.
+
+- **Flujo Alterno**:
+  - Si el usuario no está conectado, el sistema envía un correo.
+
+- **Precondición**: El usuario tiene una cuenta activada y ha configurado su ubicación.
+- **Postcondición**: El usuario recibe la notificación.
+- **Respuesta del Sistema**: Envío de notificación en tiempo real o correo.
+- **Responsabilidades**:
+  - **Actor**: Mantener sesión activa.
+  - **Sistema**: Detectar reportes cercanos, enviar notificaciones.
+
+---
+
+#### **Proceso: Recuperación de Contraseña (Cliente/Moderador)**
+Descripción
+   - Los usuarios pueden recuperar su contraseña mediante un código enviado al correo (válido por 15 minutos).
+- **Flujo Principal**:
+  1. El usuario selecciona "Olvidé mi contraseña".
+  2. El usuario ingresa su correo electrónico.
+  3. El sistema envía un correo con un código de recuperación.
+  4. El usuario ingresa el código y una nueva contraseña.
+  5. El sistema actualiza la contraseña.
+
+- **Flujo Alterno**:
+  - Si el código expira, el sistema solicita un nuevo código.
+  - Si el correo no existe, el sistema muestra un mensaje de error.
+
+- **Precondición**: El usuario tiene una cuenta registrada.
+- **Postcondición**: La contraseña se actualiza.
+- **Respuesta del Sistema**: Envío de correo con código, validación de datos, actualización de contraseña.
+- **Responsabilidades**:
+  - **Actor**: Ingresar correo y código válido.
+  - **Sistema**: Validar datos, actualizar contraseña.
+
+### **Proceso: Gestionar Reportes**
+#### **Requisitos Funcionales**
+- Los moderadores deben poder gestionar reportes realizados por los usuarios.
+- Los reportes pueden ser verificados, rechazados o eliminados.
+- Si un reporte es rechazado, el moderador debe proporcionar un motivo detallado.
+
+#### **Flujo Principal**
+1. El moderador inicia sesión en el sistema.
+2. El moderador selecciona la opción "Gestionar Reportes".
+3. El sistema muestra una lista de reportes pendientes de validación.
+4. El moderador selecciona un reporte para revisarlo.
+5. El moderador decide si:
+   - Verifica el reporte (cambia su estado a "Verificado").
+   - Rechaza el reporte (proporciona un motivo).
+   - Elimina el reporte (marca como inactivo).
+6. El sistema actualiza el estado del reporte y registra el cambio en el historial de estados.
+
+#### **Flujo Alterno**
+- Si el moderador rechaza el reporte, el sistema envía un correo al usuario que lo creó, indicando el motivo del rechazo y otorgando 5 días para realizar modificaciones.
+- Si el moderador elimina el reporte, este queda marcado como inactivo y no es visible para los usuarios.
+
+#### **Precondición**
+- El moderador ha iniciado sesión y tiene permisos para gestionar reportes.
+
+#### **Postcondición**
+- El estado del reporte se actualiza según la acción tomada por el moderador.
+- Si el reporte es rechazado, el usuario tiene 5 días para modificarlo y volver a enviarlo.
+- El historial de estados del reporte se actualiza con la fecha y hora del cambio.
+
+#### **Respuesta del Sistema**
+- Actualización del estado del reporte.
+- Envío de correo al usuario en caso de rechazo.
+- Registro del cambio en el historial de estados.
+
+#### **Responsabilidades**
+- **Moderador**: Revisar reportes, tomar decisiones sobre su estado y proporcionar motivos en caso de rechazo.
+- **Sistema**: Mostrar reportes pendientes, actualizar estados, registrar cambios en el historial y notificar al usuario.
+
+---
+
+### **Proceso: Notificar "Es Importante"**
+#### **Requisitos Funcionales**
+- Los usuarios pueden marcar un reporte como "Importante" para priorizarlo.
+- La severidad del reporte se determina según el número de veces que se marca como importante.
+
+#### **Flujo Principal**
+1. El usuario inicia sesión en el sistema.
+2. El usuario navega a la lista de reportes.
+3. El usuario selecciona un reporte y hace clic en el botón "Es Importante".
+4. El sistema registra la acción y actualiza la severidad del reporte.
+
+#### **Flujo Alterno**
+- Si el usuario ya marcó el reporte como importante, el sistema muestra un mensaje indicando que no puede hacerlo nuevamente.
+
+#### **Precondición**
+- El usuario ha iniciado sesión y tiene acceso a la lista de reportes.
+
+#### **Postcondición**
+- El reporte se marca como importante y su severidad se actualiza.
+- El sistema registra la acción en el historial del reporte.
+
+#### **Respuesta del Sistema**
+- Actualización de la severidad del reporte.
+- Mensaje de confirmación o advertencia al usuario.
+
+#### **Responsabilidades**
+- **Usuario**: Marcar el reporte como importante.
+- **Sistema**: Registrar la acción, actualizar la severidad y mostrar mensajes apropiados.
+
+---
+
+### **Proceso: Ver Detalle de Alerta de Reporte y Estado**
+#### **Requisitos Funcionales**
+- Los usuarios pueden ver el detalle completo de un reporte, incluyendo comentarios, imágenes y estado actual.
+
+#### **Flujo Principal**
+1. El usuario inicia sesión en el sistema.
+2. El usuario selecciona un reporte de la lista.
+3. El sistema muestra el detalle del reporte, incluyendo:
+   - Título, categoría, descripción, ubicación, estado actual.
+   - Comentarios agregados por otros usuarios.
+   - Historial de estados.
+4. El usuario puede interactuar con el reporte (agregar comentarios, marcar como importante, etc.).
+
+#### **Flujo Alterno**
+- Si el reporte está inactivo, el sistema muestra un mensaje indicando que no está disponible.
+
+#### **Precondición**
+- El usuario ha iniciado sesión y tiene acceso a la lista de reportes.
+
+#### **Postcondición**
+- El usuario visualiza el detalle completo del reporte.
+
+#### **Respuesta del Sistema**
+- Mostrar el detalle del reporte, incluyendo comentarios e historial de estados.
+
+#### **Responsabilidades**
+- **Usuario**: Seleccionar un reporte para ver su detalle.
+- **Sistema**: Mostrar el detalle completo del reporte y permitir interacciones adicionales.
+
+---
+
+### **Proceso: Gestionar Su Propia Cuenta (Editar, Eliminar) - Cliente**
+#### **Requisitos Funcionales**
+- Los clientes pueden editar sus datos personales o eliminar su cuenta.
+
+#### **Flujo Principal**
+1. El cliente inicia sesión en el sistema.
+2. El cliente selecciona "Mi Cuenta" en el menú.
+3. El cliente edita sus datos personales (nombre, teléfono, dirección, etc.) o solicita la eliminación de su cuenta.
+4. El sistema valida los cambios y actualiza la información del cliente.
+
+#### **Flujo Alterno**
+- Si el cliente solicita la eliminación de su cuenta, el sistema marca la cuenta como inactiva en lugar de eliminarla físicamente.
+
+#### **Precondición**
+- El cliente ha iniciado sesión.
+
+#### **Postcondición**
+- Los datos del cliente se actualizan o su cuenta se marca como inactiva.
+
+#### **Respuesta del Sistema**
+- Confirmación de los cambios realizados.
+- Marca la cuenta como inactiva en caso de eliminación.
+
+#### **Responsabilidades**
+- **Cliente**: Editar sus datos o solicitar la eliminación de su cuenta.
+- **Sistema**: Validar cambios, actualizar datos y marcar cuentas como inactivas.
+
+---
+
+### **Proceso: Gestionar Reportes por Categoría y Estado**
+Descripción Cada cambio de estado en un reporte debe registrarse con fecha y hora.
+
+#### **Requisitos Funcionales**
+- Los moderadores pueden filtrar reportes por categoría y estado (importante, relevante, por aprobar).
+
+#### **Flujo Principal**
+1. El moderador inicia sesión en el sistema.
+2. El moderador selecciona "Filtrar Reportes".
+3. El moderador elige una categoría y/o estado para filtrar.
+4. El sistema muestra los reportes correspondientes al filtro aplicado.
+
+#### **Flujo Alterno**
+- Si no hay reportes que coincidan con el filtro, el sistema muestra un mensaje indicando que no hay resultados.
+
+#### **Precondición**
+- El moderador ha iniciado sesión y tiene permisos para gestionar reportes.
+
+#### **Postcondición**
+- El moderador visualiza los reportes filtrados.
+
+#### **Respuesta del Sistema**
+- Mostrar los reportes que coinciden con el filtro aplicado.
+
+#### **Responsabilidades**
+- **Moderador**: Aplicar filtros para gestionar reportes.
+- **Sistema**: Filtrar y mostrar reportes según los criterios seleccionados.
+
+---
+
+### **Proceso: Gestionar Cuentas Inactivas - Moderador**
+#### **Requisitos Funcionales**
+- Los moderadores pueden gestionar cuentas inactivas (eliminar permanentemente o reactivar).
+
+#### **Flujo Principal**
+1. El moderador inicia sesión en el sistema.
+2. El moderador selecciona "Gestionar Cuentas Inactivas".
+3. El sistema muestra una lista de cuentas marcadas como inactivas.
+4. El moderador selecciona una cuenta y decide:
+   - Reactivarla.
+   - Eliminarla permanentemente.
+5. El sistema actualiza el estado de la cuenta.
+
+#### **Flujo Alterno**
+- Si el moderador elimina permanentemente una cuenta, el sistema elimina todos los datos asociados.
+
+#### **Precondición**
+- El moderador ha iniciado sesión y tiene permisos para gestionar cuentas inactivas.
+
+#### **Postcondición**
+- La cuenta se reactiva o se elimina permanentemente.
+
+#### **Respuesta del Sistema**
+- Actualización del estado de la cuenta.
+- Eliminación permanente de datos asociados en caso de eliminación.
+
+#### **Responsabilidades**
+- **Moderador**: Decidir qué hacer con las cuentas inactivas.
+- **Sistema**: Mostrar cuentas inactivas, actualizar estados y eliminar datos permanentemente si es necesario.
+
+### **Proceso: Inicio de Sesión (Cliente y Moderador)**
+Descripción
+   - Solo los usuarios con cuentas activadas pueden iniciar sesión.
+   - Los moderadores tienen acceso a funciones adicionales.
+
+#### **Requisitos Funcionales**
+- Los usuarios (clientes y moderadores) deben poder iniciar sesión en el sistema.
+- Solo los usuarios con cuentas activadas pueden iniciar sesión.
+
+#### **Flujo Principal**
+1. El usuario ingresa su correo electrónico y contraseña.
+2. El sistema valida las credenciales.
+3. Si las credenciales son válidas, el sistema permite el acceso al usuario.
+
+#### **Flujo Alterno**
+- Si las credenciales son inválidas, el sistema muestra un mensaje de error.
+- Si la cuenta no está activada, el sistema indica que el usuario debe activar su cuenta primero.
+
+#### **Precondición**
+- El usuario tiene una cuenta registrada en el sistema.
+
+#### **Postcondición**
+- El usuario inicia sesión y accede a la página correspondiente (cliente o moderador).
+
+#### **Respuesta del Sistema**
+- Acceso concedido o mensaje de error si las credenciales son inválidas.
+
+#### **Responsabilidades**
+- **Usuario**: Proporcionar credenciales válidas.
+- **Sistema**: Validar credenciales y permitir acceso.
+
+---
+
+### **Proceso: Cambio de Estado de Reporte (Cliente/Moderador)**
+
+#### **Requisitos Funcionales**
+- Los clientes pueden marcar un reporte como "Resuelto".
+- Los moderadores pueden cambiar el estado de un reporte (verificar, rechazar, eliminar).
+
+#### **Flujo Principal**
+1. El cliente/moderador selecciona un reporte.
+2. El cliente marca el reporte como "Resuelto".
+   - O el moderador cambia el estado según su rol (verificar, rechazar, eliminar).
+3. El sistema actualiza el estado del reporte y registra el cambio en el historial de estados.
+
+#### **Flujo Alterno**
+- Si el moderador rechaza el reporte, el sistema solicita un motivo y notifica al cliente que creó el reporte.
+- Si el cliente intenta cambiar el estado de un reporte no creado por él, el sistema muestra un mensaje de error.
+
+#### **Precondición**
+- El usuario ha iniciado sesión.
+- El cliente es el creador del reporte o el moderador tiene permisos para gestionarlo.
+
+#### **Postcondición**
+- El estado del reporte se actualiza.
+- El historial de estados registra el cambio.
+
+#### **Respuesta del Sistema**
+- Actualización del estado del reporte.
+- Notificación al cliente en caso de rechazo.
+
+#### **Responsabilidades**
+- **Cliente**: Marcar el reporte como resuelto.
+- **Moderador**: Verificar, rechazar o eliminar reportes.
+- **Sistema**: Actualizar estado, registrar cambios y notificar al cliente si es necesario.
+
+---
+
+### **Proceso: Comentarios en Reportes (Cliente)**
+
+#### **Requisitos Funcionales**
+- Los usuarios pueden agregar comentarios a reportes existentes.
+- El creador del reporte recibe un correo con el comentario.
+
+#### **Flujo Principal**
+1. El cliente selecciona un reporte y agrega un comentario.
+2. El sistema valida el comentario y lo asocia al reporte.
+3. El sistema envía un correo al creador del reporte con el contenido del comentario.
+
+#### **Flujo Alterno**
+- Si el comentario es inválido (vacío o demasiado largo), el sistema muestra un mensaje de error.
+
+#### **Precondición**
+- El cliente ha iniciado sesión.
+- El reporte existe y está visible.
+
+#### **Postcondición**
+- El comentario se asocia al reporte.
+- El creador del reporte recibe un correo con el comentario.
+
+#### **Respuesta del Sistema**
+- Confirmación de que el comentario fue agregado.
+- Envío de correo al creador del reporte.
+
+#### **Responsabilidades**
+- **Cliente**: Agregar comentarios válidos.
+- **Sistema**: Validar comentarios, asociarlos al reporte y enviar correos.
+
+---
+
+### **Proceso: Gestionar Categorías (Moderador)**
+
+#### **Requisitos Funcionales**
+- Los moderadores pueden crear, editar y eliminar categorías de reportes.
+
+#### **Flujo Principal**
+1. El moderador selecciona "Gestionar Categorías".
+2. El moderador crea, edita o elimina una categoría.
+3. El sistema actualiza la lista de categorías.
+
+#### **Flujo Alterno**
+- Si el moderador intenta eliminar una categoría en uso, el sistema muestra un mensaje de advertencia.
+
+#### **Precondición**
+- El moderador ha iniciado sesión.
+
+#### **Postcondición**
+- La lista de categorías se actualiza.
+
+#### **Respuesta del Sistema**
+- Confirmación de la acción realizada.
+- Mensaje de advertencia si la categoría está en uso.
+
+#### **Responsabilidades**
+- **Moderador**: Crear, editar o eliminar categorías.
+- **Sistema**: Validar acciones y actualizar la lista de categorías.
+
+---
+
+### **Proceso: Generar Informes (Moderador)**
+
+#### **Requisitos Funcionales**
+- Los moderadores pueden generar informes de incidentes por sectores y/o categorías en un rango de tiempo dado.
+- Los informes deben mostrarse en la web y exportarse en PDF.
+
+#### **Flujo Principal**
+1. El moderador selecciona "Generar Informe".
+2. El moderador filtra los reportes por sector, categoría y rango de tiempo.
+3. El sistema genera el informe y lo muestra en la web.
+4. El moderador puede descargar el informe en formato PDF.
+
+#### **Flujo Alterno**
+- Si no hay datos disponibles para los filtros seleccionados, el sistema muestra un mensaje indicando que no hay resultados.
+
+#### **Precondición**
+- El moderador ha iniciado sesión.
+
+#### **Postcondición**
+- El informe se genera y está disponible para visualización y descarga.
+
+#### **Respuesta del Sistema**
+- Visualización del informe en la web.
+- Descarga del informe en formato PDF.
+
+#### **Responsabilidades**
+- **Moderador**: Seleccionar filtros para generar informes.
+- **Sistema**: Filtrar datos, generar informes y permitir descarga en PDF.
+
+---
+
+### **Proceso: Eliminación Lógica de Registros**
+
+#### **Requisitos Funcionales**
+- Las eliminaciones se realizan marcando registros como inactivos en lugar de eliminarlos físicamente.
+
+#### **Flujo Principal**
+1. El usuario (cliente o moderador) solicita eliminar un registro.
+2. El sistema marca el registro como inactivo.
+
+#### **Flujo Alterno**
+- Si el registro ya está inactivo, el sistema muestra un mensaje indicando que no se puede realizar la acción.
+
+#### **Precondición**
+- El usuario ha iniciado sesión.
+- El usuario tiene permisos para eliminar el registro.
+
+#### **Postcondición**
+- El registro se marca como inactivo.
+
+#### **Respuesta del Sistema**
+- Confirmación de que el registro fue marcado como inactivo.
+
+#### **Responsabilidades**
+- **Usuario**: Solicitar la eliminación de un registro.
+- **Sistema**: Marcar el registro como inactivo.

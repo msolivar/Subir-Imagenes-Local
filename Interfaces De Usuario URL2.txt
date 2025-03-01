@@ -1,0 +1,293 @@
+Basándome en el archivo proporcionado, a continuación se describe el diseño del sitio web para gestionar eventos ciudadanos. Este diseño incluye todas las páginas necesarias y su estructura lógica, siguiendo la información detallada en el archivo "Interfaces De Usuario.txt". Cada página está diseñada para cumplir con los requisitos de funcionalidad y experiencia del usuario.
+
+---
+
+### **1. Página de Registro de Usuario (Cliente)**
+
+**URL:** `/registro`
+
+- **Campos:**
+  - Nombre completo
+  - Ciudad
+  - Teléfono
+  - Dirección
+  - Correo electrónico
+  - Contraseña
+- **Botón:** "Registrar"
+- **Validaciones:**
+  - Todos los campos son obligatorios.
+  - El correo electrónico debe ser único.
+  - La contraseña debe tener al menos 8 caracteres.
+- **Mensaje de confirmación:** "Registro exitoso. Se ha enviado un código de activación a su correo."
+
+---
+
+### **2. Página de Activación de Cuenta**
+
+**URL:** `/activacion`
+
+- **Campos:**
+  - Código de activación
+- **Botón:** "Activar Cuenta"
+- **Validaciones:**
+  - El código debe ser válido y no estar expirado (15 minutos).
+  - Si expira, permitir solicitar un nuevo código.
+
+---
+
+### **3. Página de Inicio de Sesión**
+
+**URL:** `/login`
+
+- **Campos:**
+  - Correo electrónico
+  - Contraseña
+- **Botón:** "Iniciar sesión"
+- **Validaciones:**
+  - La cuenta debe estar activada.
+  - Mostrar mensaje de error si las credenciales son incorrectas.
+- **Opción:** "Olvidé mi contraseña"
+
+---
+
+### **4. Página de Recuperación de Contraseña**
+
+**URL:** `/recuperar-contraseña`
+
+- **Pantalla 1: Solicitud de Recuperación**
+  - **Campos:**
+    - Correo electrónico
+  - **Botón:** "Enviar código de recuperación"
+
+- **Pantalla 2: Restablecer Contraseña**
+  - **Campos:**
+    - Código de recuperación
+    - Nueva contraseña
+  - **Botón:** "Actualizar Contraseña"
+  - **Validaciones:**
+    - El código debe ser válido y no estar expirado (15 minutos).
+    - La nueva contraseña debe cumplir requisitos de seguridad.
+
+---
+
+### **5. Página de Creación de Reportes**
+
+**URL:** `/crear-reporte`
+
+- **Campos:**
+  - Título
+  - Categoría (desplegable)
+  - Descripción
+  - Ubicación (mapa interactivo)
+  - Imagen
+- **Botón:** "Publicar Reporte"
+- **Validaciones:**
+  - Todos los campos son obligatorios.
+  - La imagen debe tener formato y tamaño permitido.
+
+---
+
+### **6. Página de Edición de Reportes**
+
+**URL:** `/editar-reporte/:id`
+
+- **Lista de reportes del usuario con opción de edición.**
+- **Campos editables:**
+  - Título
+  - Categoría
+  - Descripción
+  - Ubicación
+  - Imagen
+- **Botón:** "Guardar Cambios"
+- **Validaciones:**
+  - Los cambios deben cumplir con las mismas reglas de validación que la creación.
+
+---
+
+### **7. Página de Confirmación de Eliminación de Reporte**
+
+**URL:** `/eliminar-reporte/:id`
+
+- **Mensaje:** "¿Está seguro de eliminar este reporte? Esta acción no se puede deshacer."
+- **Botones:** "Cancelar", "Eliminar"
+
+---
+
+### **8. Página de Lista de Reportes**
+
+**URL:** `/reportes`
+
+- **Filtros:**
+  - Estado (pendiente, verificado, rechazado)
+  - Categoría
+- **Lista de reportes con vista rápida.**
+- **Acciones:**
+  - Ver detalles
+  - Comentar
+  - Marcar como Importante
+
+---
+
+### **9. Página de Detalle de Reporte**
+
+**URL:** `/reporte/:id`
+
+- **Información completa del reporte.**
+- **Campo de comentario.**
+- **Botón:** "Agregar Comentario"
+
+---
+
+### **10. Página de Notificaciones**
+
+**URL:** `/notificaciones`
+
+- **Lista de notificaciones con enlace a reportes relevantes.**
+- **Si el usuario no está en línea, envío de correo.**
+
+---
+
+### **11. Página de Gestión de Reportes por Moderadores**
+
+**URL:** `/moderador/reportes-pendientes`
+
+- **Filtros:**
+  - Categoría
+  - Estado
+  - Fecha
+- **Acciones:**
+  - Ver detalles
+  - Aprobar
+  - Rechazar (con motivo)
+
+---
+
+### **12. Página de Detalle de Reporte para Moderación**
+
+**URL:** `/moderador/reporte/:id`
+
+- **Toda la información del reporte.**
+- **Opciones:**
+  - "Aprobar"
+  - "Rechazar con motivo"
+
+---
+
+### **13. Página de Gestión de Cuentas Inactivas**
+
+**URL:** `/moderador/cuentas-inactivas`
+
+- **Acciones:**
+  - Reactivar
+  - Eliminar Permanentemente
+
+---
+
+### **14. Página de Filtrado de Reportes**
+
+**URL:** `/moderador/filtrar-reportes`
+
+- **Filtros:**
+  - Categoría
+  - Estado (importante, relevante, por aprobar)
+- **Botón:** "Aplicar Filtros"
+- **Resultados:** Lista de reportes filtrados.
+
+---
+
+### **15. Página de Modificación de Estado de Reporte**
+
+**URL:** `/modificar-estado-reporte/:id`
+
+- **Opciones para Cliente:**
+  - Marcar reporte como "Resuelto".
+- **Opciones para Moderador:**
+  - Verificar
+  - Rechazar (con motivo)
+  - Eliminar
+- **Historial de Estados:** Mostrar cambios de estado con fecha y hora.
+
+---
+
+### **16. Página de Generación de Informes**
+
+**URL:** `/moderador/generar-informe`
+
+- **Filtros:**
+  - Sector
+  - Categoría
+  - Rango de tiempo
+- **Botón:** "Generar Informe"
+- **Opciones de Salida:** Visualización en web, Descarga en PDF.
+
+---
+
+### **17. Página de Mis Reportes**
+
+**URL:** `/mis-reportes`
+
+- **Lista de reportes creados por el usuario.**
+- **Acciones:**
+  - Ver detalles
+  - Editar
+  - Eliminar
+  - Ver historial de cambios
+- **Botón:** "Filtrar por Estado" (Pendiente, Verificado, Rechazado, Resuelto).
+
+---
+
+### **18. Página de Exportación de Reportes**
+
+**URL:** `/moderador/exportar-reportes`
+
+- **Filtros:**
+  - Categoría
+  - Estado
+  - Fecha de creación
+- **Botón:** "Generar Exportación"
+- **Opciones de salida:** PDF, CSV.
+- **Validaciones:**
+  - Si no hay reportes en el rango seleccionado, mostrar mensaje de advertencia.
+
+---
+
+### **19. Página de Detalle de Alerta de Reporte y Estado**
+
+**URL:** `/alerta/:id`
+
+- **Información:**
+  - Título
+  - Categoría
+  - Ubicación
+  - Estado actual
+- **Historial de cambios de estado.**
+- **Comentarios de usuarios.**
+- **Botón:** "Confirmar Resolución" (si aplica).
+
+---
+
+### **20. Página de Configuración de Cuenta**
+
+**URL:** `/configuracion-cuenta`
+
+- **Campos editables:**
+  - Nombre
+  - Teléfono
+  - Dirección
+- **Botón:** "Guardar Cambios"
+- **Botón:** "Eliminar Cuenta"
+- **Confirmación de Eliminación:** "¿Está seguro de eliminar su cuenta? Esta acción es irreversible."
+
+---
+
+### **21. Página de Gestión de Cuentas Eliminadas**
+
+**URL:** `/moderador/cuentas-eliminadas`
+
+- **Acciones:**
+  - Restaurar Cuenta
+- **Historial de eliminación de cuentas.**
+
+---
+
+Este diseño cubre todas las funcionalidades descritas en el archivo y proporciona una experiencia de usuario clara y estructurada. Cada página está optimizada para cumplir con los requisitos de validación y usabilidad.
